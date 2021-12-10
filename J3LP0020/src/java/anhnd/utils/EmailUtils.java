@@ -43,7 +43,6 @@ public class EmailUtils implements Serializable {
                 protected PasswordAuthentication getPasswordAuthentication() {
                     return new PasswordAuthentication(emailOwner, password);
                 }
-
             });
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(emailOwner));

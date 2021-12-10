@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package anhnd.dtos;
+package anhnd.daos;
 
+import anhnd.dtos.AccountDTO;
 import anhnd.utils.DBUtils;
 import anhnd.utils.TextUtils;
 import java.security.NoSuchAlgorithmException;
@@ -22,7 +23,7 @@ public class AccountDAO {
 
     public AccountDAO() {
     }
-    
+
     public AccountDTO checkLogin(String email, String password) throws SQLException, NamingException, NoSuchAlgorithmException {
         AccountDTO accountDTO = null;
         Connection connection = null;
@@ -33,7 +34,7 @@ public class AccountDAO {
             if (connection != null) {
                 connection = DBUtils.makeConnection();
                 if (connection != null) {
-                    String sql = "Select email, fullName, role, status from Account where email=? and password=?";
+                    String sql = "Select email, fullName, role, status from Account where email=? and password=? and status = 1";
                     preparedStatement = connection.prepareStatement(sql);
                     preparedStatement.setString(1, email);
                     preparedStatement.setString(2, TextUtils.encrypt(password));
@@ -59,7 +60,7 @@ public class AccountDAO {
         }
         return accountDTO;
     }
-    
+
     public boolean insertAccount(AccountDTO dto) throws NamingException, SQLException, NoSuchAlgorithmException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -88,5 +89,29 @@ public class AccountDAO {
         }
         return false;
     }
-    
+
+    public boolean activeAccount(String email) throws SQLException, NamingException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        boolean check = false;
+        try {
+            connection = DBUtils.makeConnection();
+            String sql = "Update Account set status = 1 where email = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, email);
+            int row = preparedStatement.executeUpdate();
+            if(row > 0){
+                check = true;
+            }
+        } finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return check;
+    }
+
 }

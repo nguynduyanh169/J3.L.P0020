@@ -20,6 +20,10 @@
         <servlet-name>RegisterServlet</servlet-name>
         <servlet-class>anhnd.servlets.RegisterServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SearchArticleServlet</servlet-name>
+        <servlet-class>anhnd.servlets.SearchArticleServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -31,6 +35,10 @@
     <servlet-mapping>
         <servlet-name>RegisterServlet</servlet-name>
         <url-pattern>/RegisterServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SearchArticleServlet</servlet-name>
+        <url-pattern>/SearchArticleServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

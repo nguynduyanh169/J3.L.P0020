@@ -5,28 +5,18 @@
  */
 package anhnd.servlets;
 
-import anhnd.beans.SendEmailObj;
-import anhnd.daos.AccountDAO;
-import anhnd.dtos.AccountDTO;
-import anhnd.utils.EmailUtils;
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author anhnd
  */
-public class LoginServlet extends HttpServlet {
-
-    private static final String MEMBER_NEWS_FEED = "member_home.jsp";
-    private static final String INVALID_PAGE = "invalid.jsp";
-    private static final String ADMIN_MANAGE_ARTICLE = "admin_home.jsp";
+public class SearchArticleServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,42 +30,17 @@ public class LoginServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        String url = INVALID_PAGE;
-        String email = request.getParameter("txtEmail");
-        String password = request.getParameter("txtPassword");
-        try{
-            AccountDAO dao = new AccountDAO();
-            AccountDTO dto = dao.checkLogin(email, password);
-            if (dto != null) {
-                if (dto.getStatus() != 2) {
-                    switch (dto.getRole()) {
-                        case 1: {
-                            url = MEMBER_NEWS_FEED;
-                            HttpSession session = request.getSession();
-                            session.setAttribute("ACCOUNT", dto);
-                            break;
-                        }
-                        case 2: {
-                            url = ADMIN_MANAGE_ARTICLE;
-                            HttpSession session = request.getSession();
-                            session.setAttribute("ACCOUNT", dto);
-                            break;
-                        }
-                        default:
-                            url = INVALID_PAGE;
-                            break;
-                    }
-                } else {
-                    url = INVALID_PAGE ;
-                }
-            }
-        }catch(Exception e){
-            e.printStackTrace();
-        }finally{
-            RequestDispatcher rd = request.getRequestDispatcher(url);
-            rd.forward(request, response);
-            out.close();
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet SearchArticleServlet</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet SearchArticleServlet at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 
