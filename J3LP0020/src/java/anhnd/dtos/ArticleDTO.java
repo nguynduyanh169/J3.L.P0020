@@ -7,6 +7,7 @@ package anhnd.dtos;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
  *
@@ -19,14 +20,35 @@ public class ArticleDTO implements Serializable{
     private String author;
     private Date postingDate;
     private int status;
+    private String title;
+    private String authorName;
+    private Timestamp postingDateTime;
 
-    public ArticleDTO(String articleId, String shortDescription, String articleContent, String author, Date postingDate, int status) {
+    public ArticleDTO(String articleId, String title, String shortDescription, String articleContent, String author, Date postingDate, int status, String authorName) {
         this.articleId = articleId;
         this.shortDescription = shortDescription;
         this.articleContent = articleContent;
         this.author = author;
         this.postingDate = postingDate;
         this.status = status;
+        this.title = title;
+        this.authorName = authorName;
+    }
+
+    public Timestamp getPostingDateTime() {
+        return postingDateTime;
+    }
+
+    public void setPostingDateTime(Timestamp postingDateTime) {
+        this.postingDateTime = postingDateTime;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getArticleId() {
@@ -75,6 +97,14 @@ public class ArticleDTO implements Serializable{
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public String getAuthorName() {
+        return authorName;
+    }
+
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
     }
     
     

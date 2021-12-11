@@ -5,13 +5,8 @@
  */
 package anhnd.servlets;
 
-import anhnd.daos.ArticleDAO;
-import anhnd.dtos.ArticleDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -22,11 +17,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author anhnd
  */
-public class SearchArticleServlet extends HttpServlet {
-
-    private static final String GUEST_HOME_PAGE = "guest_home.jsp";
-    private static final String MEMBER_HOME_PAGE = "member_home.jsp";
-    private static final String ADMIN_HOME_PAGE = "admin_home.jsp";
+public class LogoutServlet extends HttpServlet {
+     private static final String GUEST_HOME = "guest_home.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,49 +33,17 @@ public class SearchArticleServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        String url = GUEST_HOME_PAGE;
-        String searchKey = request.getParameter("txtSearch");
-        String forwardTo = request.getParameter("forwardTo");
-        int pageIndex = Integer.parseInt(request.getParameter("page"));
-        int pageSize = 5;
-        int endPage = 0;
-        int totalArticle = 0;
-        switch (forwardTo) {
-            case "member":
-                url = MEMBER_HOME_PAGE;
-                break;
-            case "admin":
-                url = ADMIN_HOME_PAGE;
-                break;
-            default:
-                url = GUEST_HOME_PAGE;
-                break;
-        }
+        HttpSession session = request.getSession(false);
+        String url = GUEST_HOME;
         try {
-            ArticleDAO articleDAO = new ArticleDAO();
-            List<ArticleDTO> articles = new ArrayList<>();
-            if (forwardTo.equals("admin")) {
-                totalArticle = articleDAO.countArticleForAdmin(searchKey, 1);
-            } else {
-                totalArticle = articleDAO.countArticleForUser(searchKey);
+            if (session != null) {
+                session.invalidate();
             }
-            endPage = totalArticle / pageSize;
-            if (totalArticle % pageSize != 0) {
-                endPage++;
-            }
-            if (forwardTo.equals("admin")) {
-                articles = articleDAO.getArticleForAdmin(searchKey, pageIndex, pageSize, 1);
-            } else {
-                articles = articleDAO.getArticleForUser(searchKey, pageIndex, pageSize);
-            }
-            HttpSession session = request.getSession();
-            session.setAttribute("ARTICLES", articles);
-            session.setAttribute("TOTALPAGE", endPage);
-        } catch (Exception e) {
+
+        }catch(Exception e){
             e.printStackTrace();
-        } finally {
-            RequestDispatcher rd = request.getRequestDispatcher(url);
-            rd.forward(request, response);
+        }finally {
+            response.sendRedirect(url);
             out.close();
         }
     }

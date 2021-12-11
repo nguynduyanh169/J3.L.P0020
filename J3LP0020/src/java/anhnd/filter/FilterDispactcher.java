@@ -25,7 +25,7 @@ import javax.servlet.http.HttpSession;
  * @author anhnd
  */
 public class FilterDispactcher implements Filter {
-    private static final String LOGIN_PAGE = "login.html";
+    private static final String LOGIN_PAGE = "login.jsp";
     private static final String GUEST_HOME_PAGE = "guest_home.jsp";
     private static final boolean debug = true;
 
@@ -123,11 +123,11 @@ public class FilterDispactcher implements Filter {
             }
             dto = (AccountDTO) session.getAttribute("ACCOUNT");
             if (dto != null) {
-                if (uri.contains("admin")) {
+                if (uri.contains("member")) {
                     if (dto.getRole()!= 1) {
                         url = LOGIN_PAGE;
                     }
-                } else if (uri.contains("member")) {
+                } else if (uri.contains("admin")) {
                     if (dto.getRole()!= 2) {
                         url = LOGIN_PAGE;
                     }

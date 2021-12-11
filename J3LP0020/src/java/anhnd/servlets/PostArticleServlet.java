@@ -5,19 +5,27 @@
  */
 package anhnd.servlets;
 
+import anhnd.daos.ArticleDAO;
+import anhnd.dtos.AccountDTO;
+import anhnd.dtos.ArticleDTO;
+import anhnd.utils.TextUtils;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author anhnd
  */
-public class LoadHomeServlet extends HttpServlet {
-private static final String GUEST_HOME_PAGE = "guest_home.jsp";
+public class PostArticleServlet extends HttpServlet {
+
+    private static final String POST_ARTICLE_PAGE = "member_post_article.jsp";
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -30,17 +38,27 @@ private static final String GUEST_HOME_PAGE = "guest_home.jsp";
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet LoadHomeServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet LoadHomeServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        PrintWriter out = response.getWriter();
+        String url = POST_ARTICLE_PAGE;
+        String title = request.getParameter("txtTitle");
+        String shortDesc = request.getParameter("txtShortDesc");
+        String content = request.getParameter("txtContent");
+
+        try {
+            HttpSession session = request.getSession();
+            AccountDTO accountDTO = (AccountDTO) session.getAttribute("ACCOUNT");
+            ArticleDAO articleDAO = new ArticleDAO();
+            ArticleDTO articleDTO = new ArticleDTO(TextUtils.getUUID(), title, shortDesc, content, accountDTO.getEmail(), null, 0, accountDTO.getFullName());
+            boolean check = articleDAO.insertArticle(articleDTO);
+            if (check) {
+                url = "SearchArticleServlet?txtSearch=&page=1&forwardTo=member&btAction=Search";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            RequestDispatcher rd = request.getRequestDispatcher(url);
+            rd.forward(request, response);
+            out.close();
         }
     }
 
