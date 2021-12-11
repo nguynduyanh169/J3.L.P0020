@@ -6,12 +6,8 @@
 package anhnd.servlets;
 
 import anhnd.daos.ArticleDAO;
-import anhnd.daos.CommentDAO;
-import anhnd.dtos.ArticleDTO;
-import anhnd.dtos.CommentDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -23,11 +19,9 @@ import javax.servlet.http.HttpSession;
  *
  * @author anhnd
  */
-public class GetArticleServlet extends HttpServlet {
+public class UpdateArticleStatusServlet extends HttpServlet {
 
-    private static final String GUEST_VIEW_ARTICLE = "guest_view_article.jsp";
-    private static final String MEMBER_VIEW_ARTICLE = "member_view_article.jsp";
-    private static final String ADMIN_VIEW_ARTICLE = "admin_view_article.jsp";
+    private static final String POST_ARTICLE_PAGE = "admin_view_article.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,29 +36,17 @@ public class GetArticleServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        String url = GUEST_VIEW_ARTICLE;
+        String url = POST_ARTICLE_PAGE;
+        String status = request.getParameter("rbStatus");
         String articleId = request.getParameter("articleId");
-        String forwardTo = request.getParameter("forwardTo");
         try {
-            switch (forwardTo) {
-                case "member":
-                    url = MEMBER_VIEW_ARTICLE;
-                    break;
-                case "admin":
-                    url = ADMIN_VIEW_ARTICLE;
-                    break;
-                default:
-                    url = GUEST_VIEW_ARTICLE;
-                    break;
-            }
-            HttpSession session = request.getSession();
             ArticleDAO articleDAO = new ArticleDAO();
-            CommentDAO commentDAO = new CommentDAO();
-            ArticleDTO articleDTO = articleDAO.getArticleById(articleId);
-            if (articleDTO != null) {
-                List<CommentDTO> comments = commentDAO.getCommentByArticleId(articleDTO.getArticleId());
-                session.setAttribute("SELECTEDARTICLE", articleDTO);
-                session.setAttribute("COMMENTS", comments);
+            boolean check = articleDAO.changeArticleStatus(status.equals("approve") ? 1 : -1, articleId);
+            if (check) {
+                HttpSession session = request.getSession();
+                String selectedStatus = (String) session.getAttribute("SELECTEDSTATUS");
+                System.out.println(selectedStatus);
+                url = "SearchArticleServlet?txtSearch=&articleStatus=" + selectedStatus + "&page=1&forwardTo=admin&btAction=Search";
             }
         } catch (Exception e) {
             e.printStackTrace();

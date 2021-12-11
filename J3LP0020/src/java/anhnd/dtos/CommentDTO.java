@@ -7,6 +7,7 @@ package anhnd.dtos;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
  *
@@ -19,6 +20,7 @@ public class CommentDTO implements Serializable{
     private int status;
     private String commentBy;
     private Date commentDate;
+    private Timestamp commentDateTime;
 
     public CommentDTO(String commentId, String commentContent, String articleId, int status, String commentBy, Date commentDate) {
         this.commentId = commentId;
@@ -27,6 +29,14 @@ public class CommentDTO implements Serializable{
         this.status = status;
         this.commentBy = commentBy;
         this.commentDate = commentDate;
+    }
+
+    public Timestamp getCommentDateTime() {
+        return commentDateTime;
+    }
+
+    public void setCommentDateTime(Timestamp commentDateTime) {
+        this.commentDateTime = commentDateTime;
     }
 
     public String getCommentId() {

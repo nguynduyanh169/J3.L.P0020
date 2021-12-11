@@ -63,7 +63,8 @@ public class SearchArticleServlet extends HttpServlet {
             ArticleDAO articleDAO = new ArticleDAO();
             List<ArticleDTO> articles = new ArrayList<>();
             if (forwardTo.equals("admin")) {
-                totalArticle = articleDAO.countArticleForAdmin(searchKey, 1);
+                String articleStatus = request.getParameter("articleStatus");
+                totalArticle = articleDAO.countArticleForAdmin(searchKey, Integer.parseInt(articleStatus));
             } else {
                 totalArticle = articleDAO.countArticleForUser(searchKey);
             }
@@ -72,11 +73,19 @@ public class SearchArticleServlet extends HttpServlet {
                 endPage++;
             }
             if (forwardTo.equals("admin")) {
-                articles = articleDAO.getArticleForAdmin(searchKey, pageIndex, pageSize, 1);
+                String articleStatus = request.getParameter("articleStatus");
+                articles = articleDAO.getArticleForAdmin(searchKey, pageIndex, pageSize, Integer.parseInt(articleStatus));
             } else {
                 articles = articleDAO.getArticleForUser(searchKey, pageIndex, pageSize);
             }
             HttpSession session = request.getSession();
+            if (request.getParameter("articleStatus") != null) {
+                System.out.println("ok");
+                if (!request.getParameter("articleStatus").isEmpty()) {
+                    session.setAttribute("SELECTEDSTATUS", request.getParameter("articleStatus"));
+                }
+
+            }
             session.setAttribute("ARTICLES", articles);
             session.setAttribute("TOTALPAGE", endPage);
         } catch (Exception e) {

@@ -13,6 +13,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import javax.naming.NamingException;
@@ -45,7 +46,9 @@ public class CommentDAO {
                 int status = resultSet.getInt("status");
                 String commentBy = resultSet.getString("commentBy");
                 Date commentDate = resultSet.getDate("commentDate");
+                Timestamp commentDateTime = resultSet.getTimestamp("commentDate");
                 commentDTO = new CommentDTO(commentId, commentContent, articleId, status, commentBy, commentDate);
+                commentDTO.setCommentDateTime(commentDateTime);
                 result.add(commentDTO);
             }
         } finally {

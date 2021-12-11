@@ -8,6 +8,7 @@ package anhnd.servlets;
 import anhnd.daos.ArticleDAO;
 import anhnd.dtos.AccountDTO;
 import anhnd.dtos.ArticleDTO;
+import anhnd.dtos.ArticleError;
 import anhnd.utils.TextUtils;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -43,16 +44,34 @@ public class PostArticleServlet extends HttpServlet {
         String title = request.getParameter("txtTitle");
         String shortDesc = request.getParameter("txtShortDesc");
         String content = request.getParameter("txtContent");
-
+        ArticleError error = new ArticleError();
+        boolean isError = false;
         try {
-            HttpSession session = request.getSession();
-            AccountDTO accountDTO = (AccountDTO) session.getAttribute("ACCOUNT");
-            ArticleDAO articleDAO = new ArticleDAO();
-            ArticleDTO articleDTO = new ArticleDTO(TextUtils.getUUID(), title, shortDesc, content, accountDTO.getEmail(), null, 0, accountDTO.getFullName());
-            boolean check = articleDAO.insertArticle(articleDTO);
-            if (check) {
-                url = "SearchArticleServlet?txtSearch=&page=1&forwardTo=member&btAction=Search";
+            if (title.isEmpty() || title.length() > 100) {
+                error.setTitle("Title lenght is 0 - 100 characters.");
+                isError = true;
             }
+            if (shortDesc.isEmpty() || shortDesc.length() > 100) {
+                error.setShortDesc("Short description lenght is 0 - 100 characters.");
+                isError = true;
+            }
+            if (content.isEmpty() || content.length() > 200) {
+                error.setContent("Content lenght is 0 - 200 characters.");
+                isError = true;
+            }
+            if (isError) {
+                request.setAttribute("ERROR", error);
+            } else {
+                HttpSession session = request.getSession();
+                AccountDTO accountDTO = (AccountDTO) session.getAttribute("ACCOUNT");
+                ArticleDAO articleDAO = new ArticleDAO();
+                ArticleDTO articleDTO = new ArticleDTO(TextUtils.getUUID(), title, shortDesc, content, accountDTO.getEmail(), null, 0, accountDTO.getFullName());
+                boolean check = articleDAO.insertArticle(articleDTO);
+                if (check) {
+                    url = "SearchArticleServlet?txtSearch=&page=1&forwardTo=member&btAction=Search";
+                }
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

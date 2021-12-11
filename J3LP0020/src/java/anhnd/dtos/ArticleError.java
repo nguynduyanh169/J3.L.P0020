@@ -16,12 +16,6 @@ public class ArticleError implements Serializable{
     private String shortDesc;
     private String content;
 
-    public ArticleError(String title, String shortDesc, String content) {
-        this.title = title;
-        this.shortDesc = shortDesc;
-        this.content = content;
-    }
-
     public String getTitle() {
         return title;
     }

@@ -52,7 +52,7 @@
                         <tr>
                             <td>${dto.commentBy}: </td>
                             <td>${dto.commentContent}</td>
-                            <td>${dto.commentDate}</td>
+                            <td><fmt:formatDate value="${dto.commentDateTime}" pattern="yyyy-MM-dd HH:mm" /></td>
                         </tr>
                     </c:forEach>
                 </tbody>

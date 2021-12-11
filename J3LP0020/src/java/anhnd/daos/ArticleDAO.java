@@ -243,4 +243,31 @@ public class ArticleDAO {
         return check;
     }
 
+    public boolean changeArticleStatus(int status, String articleId) throws NamingException, SQLException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        boolean check = false;
+        try {
+            connection = DBUtils.makeConnection();
+            String sql = "Update Article set status = ? where articleId = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, status);
+            preparedStatement.setString(2, articleId);
+            int row = preparedStatement.executeUpdate();
+            if (row > 0) {
+                check = true;
+            }
+
+        } finally {
+
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return check;
+    }
+
 }
