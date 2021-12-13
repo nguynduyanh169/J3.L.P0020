@@ -2,19 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/Users/anhnd/Documents/LabWeb/J3.L.P0020/J3LP0020/src/java/anhnd/servlets/SearchArticleServlet.java</file>
-            <file>file:/C:/Users/anhnd/Documents/LabWeb/J3.L.P0020/J3LP0020/web/admin_view_article.jsp</file>
-            <file>file:/C:/Users/anhnd/Documents/LabWeb/J3.L.P0020/J3LP0020/src/java/anhnd/servlets/UpdateArticleStatusServlet.java</file>
-            <file>file:/C:/Users/anhnd/Documents/LabWeb/J3.L.P0020/J3LP0020/web/admin_home.jsp</file>
-            <file>file:/C:/Users/anhnd/Documents/LabWeb/J3.L.P0020/J3LP0020/web/guest_view_article.jsp</file>
-            <file>file:/C:/Users/anhnd/Documents/LabWeb/J3.L.P0020/J3LP0020/web/member_post_article.jsp</file>
-            <file>file:/C:/Users/anhnd/Documents/LabWeb/J3.L.P0020/J3LP0020/src/java/anhnd/servlets/GetArticleServlet.java</file>
-            <file>file:/C:/Users/anhnd/Documents/LabWeb/J3.L.P0020/J3LP0020/src/java/anhnd/servlets/PostArticleServlet.java</file>
-            <file>file:/C:/Users/anhnd/Documents/LabWeb/J3.L.P0020/J3LP0020/src/java/anhnd/dtos/ArticleDTO.java</file>
-            <file>file:/C:/Users/anhnd/Documents/LabWeb/J3.L.P0020/J3LP0020/web/member_home.jsp</file>
-            <file>file:/C:/Users/anhnd/Documents/LabWeb/J3.L.P0020/J3LP0020/src/java/anhnd/daos/ArticleDAO.java</file>
-            <file>file:/C:/Users/anhnd/Documents/LabWeb/J3.L.P0020/J3LP0020/web/member_view_article.jsp</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

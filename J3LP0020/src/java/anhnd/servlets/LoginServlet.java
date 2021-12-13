@@ -17,16 +17,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.apache.log4j.Logger;
 
 /**
  *
  * @author anhnd
  */
 public class LoginServlet extends HttpServlet {
-
+    
     private static final String MEMBER_NEWS_FEED = "member_home.jsp";
     private static final String INVALID_PAGE = "invalid.jsp";
     private static final String ADMIN_MANAGE_ARTICLE = "admin_home.jsp";
+    private static final Logger LOG = Logger.getLogger(LoginServlet.class.getName());
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,7 +46,8 @@ public class LoginServlet extends HttpServlet {
         String url = INVALID_PAGE;
         String email = request.getParameter("txtEmail");
         String password = request.getParameter("txtPassword");
-        try{
+        try {
+            LOG.debug("Test");
             AccountDAO dao = new AccountDAO();
             AccountDTO dto = dao.checkLogin(email, password);
             if (dto != null) {
@@ -53,12 +56,16 @@ public class LoginServlet extends HttpServlet {
                         case 1: {
                             url = MEMBER_NEWS_FEED;
                             HttpSession session = request.getSession();
+                            session.removeAttribute("ARTICLES");
+                            session.removeAttribute("TOTALPAGE");
                             session.setAttribute("ACCOUNT", dto);
                             break;
                         }
                         case 2: {
                             url = ADMIN_MANAGE_ARTICLE;
                             HttpSession session = request.getSession();
+                            session.removeAttribute("ARTICLES");
+                            session.removeAttribute("TOTALPAGE");
                             session.setAttribute("ACCOUNT", dto);
                             break;
                         }
@@ -67,12 +74,12 @@ public class LoginServlet extends HttpServlet {
                             break;
                     }
                 } else {
-                    url = INVALID_PAGE ;
+                    url = INVALID_PAGE;
                 }
             }
-        }catch(Exception e){
-            e.printStackTrace();
-        }finally{
+        } catch (Exception e) {
+            LOG.error("LoginServlet_Exception: " + e.getMessage());
+        } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);
             out.close();

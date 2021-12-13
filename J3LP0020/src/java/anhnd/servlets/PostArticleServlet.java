@@ -55,8 +55,8 @@ public class PostArticleServlet extends HttpServlet {
                 error.setShortDesc("Short description lenght is 0 - 100 characters.");
                 isError = true;
             }
-            if (content.isEmpty() || content.length() > 200) {
-                error.setContent("Content lenght is 0 - 200 characters.");
+            if (content.isEmpty() || content.length() > 500) {
+                error.setContent("Content lenght is 0 - 500 characters.");
                 isError = true;
             }
             if (isError) {

@@ -14,7 +14,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <h1 style=" display: flex;justify-content: center;margin-bottom: 50px">Login To Simple Blog</h1><br><br>
+        <a href="guest_home.jsp">Back to home</a>
+        <br/>
+        <h1 style=" display: flex;justify-content: center;margin-bottom: 50px">Login To Simple Blog</h1><br><br>        
         <form action="login" method="POST">
             <table style=" display: flex;justify-content: center;margin-bottom: 50px" border="0">
                 <tbody>

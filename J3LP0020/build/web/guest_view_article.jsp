@@ -16,6 +16,12 @@
     <body>
         <c:set var="article" value="${sessionScope.SELECTEDARTICLE}" />
         <c:set var="comments" value="${sessionScope.COMMENTS}" />
+        <c:url var="backToHomeLink" value="backToHome">
+            <c:param name="btAction" value="Guest Back To Home" />
+        </c:url>
+        <a href="${backToHomeLink}">Back To Home</a>
+        <br/>
+
         <h1><c:out value="${article.title}"/>!</h1>
         <table border="0">
             <tbody>

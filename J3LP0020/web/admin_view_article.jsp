@@ -16,6 +16,11 @@
     <body>
         <c:set var="article" value="${sessionScope.SELECTEDARTICLE}" />
         <c:set var="comments" value="${sessionScope.COMMENTS}" />
+        <c:url var="backToHomeLink" value="backToHome">
+            <c:param name="btAction" value="Admin Back To Home" />
+        </c:url>
+        <a href="${backToHomeLink}">Back To Home</a>
+        <br/>
         <h1><c:out value="${article.title}"/>!</h1>
         <form action="updateArticleStatus" method="POST">
             <table border="0">
@@ -53,11 +58,24 @@
                             </c:if>
                         </td>
                     </tr>
-
-                    <tr>
-                        <td><input name="rbStatus" type="radio" value="approve"/> Approve </td>
-                        <td><input name="rbStatus" type="radio" value="disapprove"/> Disapprove </td>
-                    </tr>
+                    <c:if test="${article.status eq 0}">
+                        <tr>
+                            <td><input name="rbStatus" type="radio" value="approve"/> Approve</td>
+                            <td><input name="rbStatus" type="radio" value="disapprove"/> Disapprove</td>
+                        </tr>
+                    </c:if>
+                    <c:if test="${article.status eq 1}">
+                        <tr>
+                            <td><input name="rbStatus" type="radio" value="approve" checked="true"/> Approve</td>
+                            <td><input name="rbStatus" type="radio" value="disapprove"/> Disapprove</td>
+                        </tr>
+                    </c:if>
+                    <c:if test="${article.status eq -1}">
+                        <tr>
+                            <td><input name="rbStatus" type="radio" value="approve"/> Approve</td>
+                            <td><input name="rbStatus" type="radio" value="disapprove" checked="true"/> Disapprove</td>
+                        </tr>
+                    </c:if>
                     <tr>
                         <td></td>
                         <td><input type="hidden" name="articleId" value="${article.articleId}"/>

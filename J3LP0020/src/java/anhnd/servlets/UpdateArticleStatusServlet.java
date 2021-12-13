@@ -40,14 +40,18 @@ public class UpdateArticleStatusServlet extends HttpServlet {
         String status = request.getParameter("rbStatus");
         String articleId = request.getParameter("articleId");
         try {
-            ArticleDAO articleDAO = new ArticleDAO();
-            boolean check = articleDAO.changeArticleStatus(status.equals("approve") ? 1 : -1, articleId);
-            if (check) {
-                HttpSession session = request.getSession();
-                String selectedStatus = (String) session.getAttribute("SELECTEDSTATUS");
-                System.out.println(selectedStatus);
+            HttpSession session = request.getSession();
+            String selectedStatus = (String) session.getAttribute("SELECTEDSTATUS");
+            if (status == null) {
                 url = "SearchArticleServlet?txtSearch=&articleStatus=" + selectedStatus + "&page=1&forwardTo=admin&btAction=Search";
+            } else {
+                ArticleDAO articleDAO = new ArticleDAO();
+                boolean check = articleDAO.changeArticleStatus(status.equals("approve") ? 1 : -1, articleId);
+                if (check) {
+                    url = "SearchArticleServlet?txtSearch=&articleStatus=" + selectedStatus + "&page=1&forwardTo=admin&btAction=Search";
+                }
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

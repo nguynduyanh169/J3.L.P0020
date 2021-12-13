@@ -107,7 +107,7 @@ public class ArticleDAO {
         List<ArticleDTO> result = null;
         try {
             connection = DBUtils.makeConnection();
-            String sql = "Select articleId, title, shortDescription, articleContent, author, postingDate, status, authorName from Article where articleContent like N'%" + searchContent + "%' and status = ? "
+            String sql = "Select articleId, title, shortDescription, articleContent, author, postingDate, status, authorName from Article where title like N'%" + searchContent + "%' and status = ? "
                     + "order by postingDate desc "
                     + "offset ? rows fetch next ? rows only";
             preparedStatement = connection.prepareStatement(sql);
@@ -152,7 +152,7 @@ public class ArticleDAO {
         int result = 0;
         try {
             connection = DBUtils.makeConnection();
-            String sql = "Select count(articleId) from Article where articleContent like N'%" + searchContent + "%' and status = ? ";
+            String sql = "Select count(articleId) from Article where title like N'%" + searchContent + "%' and status = ? ";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, selectedStatus);
             resultSet = preparedStatement.executeQuery();
