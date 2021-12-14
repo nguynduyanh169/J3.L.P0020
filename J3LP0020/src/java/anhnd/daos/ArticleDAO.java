@@ -99,7 +99,7 @@ public class ArticleDAO {
         return result;
     }
 
-    public List<ArticleDTO> getArticleForAdmin(String searchContent, int pageIndex, int pageSize, int selectedStatus) throws SQLException, NamingException {
+    public List<ArticleDTO> getArticleForAdmin(String searchTitle, int pageIndex, int pageSize, int selectedStatus, String searchContent) throws SQLException, NamingException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -107,7 +107,7 @@ public class ArticleDAO {
         List<ArticleDTO> result = null;
         try {
             connection = DBUtils.makeConnection();
-            String sql = "Select articleId, title, shortDescription, articleContent, author, postingDate, status, authorName from Article where title like N'%" + searchContent + "%' and status = ? "
+            String sql = "Select articleId, title, shortDescription, articleContent, author, postingDate, status, authorName from Article where title like N'%" + searchTitle + "%' and articleContent like N'%" + searchContent +"%' and status = ? "
                     + "order by postingDate desc "
                     + "offset ? rows fetch next ? rows only";
             preparedStatement = connection.prepareStatement(sql);
@@ -145,14 +145,14 @@ public class ArticleDAO {
         return result;
     }
 
-    public int countArticleForAdmin(String searchContent, int selectedStatus) throws NamingException, SQLException {
+    public int countArticleForAdmin(String searchContent, int selectedStatus, String searchTitle) throws NamingException, SQLException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         int result = 0;
         try {
             connection = DBUtils.makeConnection();
-            String sql = "Select count(articleId) from Article where title like N'%" + searchContent + "%' and status = ? ";
+            String sql = "Select count(articleId) from Article where title like N'%" + searchTitle + "%' and articleContent like N'%" + searchContent + "%' and status = ? ";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, selectedStatus);
             resultSet = preparedStatement.executeQuery();

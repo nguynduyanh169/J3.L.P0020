@@ -18,6 +18,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -30,6 +31,7 @@ public class RegisterServlet extends HttpServlet {
     private static final String CONFIRM_CODE_PAGE = "confirm_email.jsp";
     private static final Pattern VALID_EMAIL_ADDRESS_REGEX
             = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+    private static final Logger LOG = Logger.getLogger(RegisterServlet.class.getName());
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -119,7 +121,7 @@ public class RegisterServlet extends HttpServlet {
                 request.setAttribute("ERROR", "This account is existed!");
                 url = REGISTER_PAGE;
             }
-            e.printStackTrace();
+            LOG.error("RegisterServlet_Exception: " + e.getMessage());
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);

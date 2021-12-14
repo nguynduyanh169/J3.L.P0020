@@ -14,14 +14,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.apache.log4j.Logger;
 
 /**
  *
  * @author anhnd
  */
 public class UpdateArticleStatusServlet extends HttpServlet {
-
+    
     private static final String POST_ARTICLE_PAGE = "admin_view_article.jsp";
+    private static final Logger LOG = Logger.getLogger(UpdateArticleStatusServlet.class.getName());
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -51,9 +53,9 @@ public class UpdateArticleStatusServlet extends HttpServlet {
                     url = "SearchArticleServlet?txtSearch=&articleStatus=" + selectedStatus + "&page=1&forwardTo=admin&btAction=Search";
                 }
             }
-
+            
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("UpdateArticleStatusServlet_Exception: " + e.getMessage());
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);

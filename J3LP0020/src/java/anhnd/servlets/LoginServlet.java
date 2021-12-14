@@ -47,11 +47,10 @@ public class LoginServlet extends HttpServlet {
         String email = request.getParameter("txtEmail");
         String password = request.getParameter("txtPassword");
         try {
-            LOG.debug("Test");
             AccountDAO dao = new AccountDAO();
             AccountDTO dto = dao.checkLogin(email, password);
             if (dto != null) {
-                if (dto.getStatus() != 2) {
+                if (dto.getStatus() != 0) {
                     switch (dto.getRole()) {
                         case 1: {
                             url = MEMBER_NEWS_FEED;

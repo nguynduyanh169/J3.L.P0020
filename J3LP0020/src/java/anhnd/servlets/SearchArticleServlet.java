@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -27,6 +28,7 @@ public class SearchArticleServlet extends HttpServlet {
     private static final String GUEST_HOME_PAGE = "guest_home.jsp";
     private static final String MEMBER_HOME_PAGE = "member_home.jsp";
     private static final String ADMIN_HOME_PAGE = "admin_home.jsp";
+    private static final Logger LOG = Logger.getLogger(SearchArticleServlet.class.getName());
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,8 +43,8 @@ public class SearchArticleServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        String url = GUEST_HOME_PAGE;
-        String searchKey = request.getParameter("txtSearch");
+        String url;
+        String searchContent = request.getParameter("txtSearch");
         String forwardTo = request.getParameter("forwardTo");
         int pageIndex = Integer.parseInt(request.getParameter("page"));
         int pageSize = 5;
@@ -64,9 +66,10 @@ public class SearchArticleServlet extends HttpServlet {
             List<ArticleDTO> articles = new ArrayList<>();
             if (forwardTo.equals("admin")) {
                 String articleStatus = request.getParameter("articleStatus");
-                totalArticle = articleDAO.countArticleForAdmin(searchKey, Integer.parseInt(articleStatus));
+                String searchTitle = request.getParameter("txtSearchTitle");
+                totalArticle = articleDAO.countArticleForAdmin(searchContent, Integer.parseInt(articleStatus), searchTitle);
             } else {
-                totalArticle = articleDAO.countArticleForUser(searchKey);
+                totalArticle = articleDAO.countArticleForUser(searchContent);
             }
             endPage = totalArticle / pageSize;
             if (totalArticle % pageSize != 0) {
@@ -74,9 +77,10 @@ public class SearchArticleServlet extends HttpServlet {
             }
             if (forwardTo.equals("admin")) {
                 String articleStatus = request.getParameter("articleStatus");
-                articles = articleDAO.getArticleForAdmin(searchKey, pageIndex, pageSize, Integer.parseInt(articleStatus));
+                String searchTitle = request.getParameter("txtSearchTitle");
+                articles = articleDAO.getArticleForAdmin(searchTitle, pageIndex, pageSize, Integer.parseInt(articleStatus), searchContent);
             } else {
-                articles = articleDAO.getArticleForUser(searchKey, pageIndex, pageSize);
+                articles = articleDAO.getArticleForUser(searchContent, pageIndex, pageSize);
             }
             HttpSession session = request.getSession();
             if (request.getParameter("articleStatus") != null) {
@@ -88,7 +92,7 @@ public class SearchArticleServlet extends HttpServlet {
             session.setAttribute("ARTICLES", articles);
             session.setAttribute("TOTALPAGE", endPage);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("SearchArticleServlet_Exception: " + e.getMessage());
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);

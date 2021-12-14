@@ -12,6 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -22,6 +23,8 @@ public class BackToHomeServlet extends HttpServlet {
     private static final String GUEST_HOME_PAGE = "guest_home.jsp";
     private static final String MEMBER_HOME_PAGE = "member_home.jsp";
     private static final String ADMIN_HOME_PAGE = "admin_home.jsp";
+        private static final Logger LOG = Logger.getLogger(BackToHomeServlet.class.getName());
+
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -45,7 +48,7 @@ public class BackToHomeServlet extends HttpServlet {
                 url = ADMIN_HOME_PAGE;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("BackToHomeServlet_Exception: " + e.getMessage());
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);

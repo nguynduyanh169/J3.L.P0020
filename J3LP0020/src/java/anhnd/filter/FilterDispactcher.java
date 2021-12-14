@@ -6,6 +6,7 @@
 package anhnd.filter;
 
 import anhnd.dtos.AccountDTO;
+import anhnd.servlets.LoginServlet;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
@@ -19,24 +20,27 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import org.apache.log4j.Logger;
 
 /**
  *
  * @author anhnd
  */
 public class FilterDispactcher implements Filter {
+
     private static final String LOGIN_PAGE = "login.jsp";
     private static final String GUEST_HOME_PAGE = "guest_home.jsp";
     private static final boolean debug = true;
+    private static final Logger LOG = Logger.getLogger(FilterDispactcher.class.getName());
 
     // The filter configuration object we are associated with.  If
     // this value is null, this filter instance is not currently
     // configured. 
     private FilterConfig filterConfig = null;
-    
+
     public FilterDispactcher() {
-    }    
-    
+    }
+
     private void doBeforeProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
         if (debug) {
@@ -63,8 +67,8 @@ public class FilterDispactcher implements Filter {
 	    log(buf.toString());
 	}
          */
-    }    
-    
+    }
+
     private void doAfterProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
         if (debug) {
@@ -102,7 +106,7 @@ public class FilterDispactcher implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain)
             throws IOException, ServletException {
-        
+
         HttpServletRequest req = (HttpServletRequest) request;
         HttpSession session = req.getSession();
         request.setCharacterEncoding("UTF-8");
@@ -124,11 +128,11 @@ public class FilterDispactcher implements Filter {
             dto = (AccountDTO) session.getAttribute("ACCOUNT");
             if (dto != null) {
                 if (uri.contains("member")) {
-                    if (dto.getRole()!= 1) {
+                    if (dto.getRole() != 1) {
                         url = LOGIN_PAGE;
                     }
                 } else if (uri.contains("admin")) {
-                    if (dto.getRole()!= 2) {
+                    if (dto.getRole() != 2) {
                         url = LOGIN_PAGE;
                     }
                 }
@@ -143,9 +147,9 @@ public class FilterDispactcher implements Filter {
             } else {
                 chain.doFilter(request, response);
             }
-            
+
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("Filter_Dispactcher Exception: " + e.getMessage());
         }
     }
 
@@ -168,16 +172,16 @@ public class FilterDispactcher implements Filter {
     /**
      * Destroy method for this filter
      */
-    public void destroy() {        
+    public void destroy() {
     }
 
     /**
      * Init method for this filter
      */
-    public void init(FilterConfig filterConfig) {        
+    public void init(FilterConfig filterConfig) {
         this.filterConfig = filterConfig;
         if (filterConfig != null) {
-            if (debug) {                
+            if (debug) {
                 log("FilterDispactcher:Initializing filter");
             }
         }
@@ -196,20 +200,20 @@ public class FilterDispactcher implements Filter {
         sb.append(")");
         return (sb.toString());
     }
-    
+
     private void sendProcessingError(Throwable t, ServletResponse response) {
-        String stackTrace = getStackTrace(t);        
-        
+        String stackTrace = getStackTrace(t);
+
         if (stackTrace != null && !stackTrace.equals("")) {
             try {
                 response.setContentType("text/html");
                 PrintStream ps = new PrintStream(response.getOutputStream());
-                PrintWriter pw = new PrintWriter(ps);                
+                PrintWriter pw = new PrintWriter(ps);
                 pw.print("<html>\n<head>\n<title>Error</title>\n</head>\n<body>\n"); //NOI18N
 
                 // PENDING! Localize this for next official release
-                pw.print("<h1>The resource did not process correctly</h1>\n<pre>\n");                
-                pw.print(stackTrace);                
+                pw.print("<h1>The resource did not process correctly</h1>\n<pre>\n");
+                pw.print(stackTrace);
                 pw.print("</pre></body>\n</html>"); //NOI18N
                 pw.close();
                 ps.close();
@@ -226,7 +230,7 @@ public class FilterDispactcher implements Filter {
             }
         }
     }
-    
+
     public static String getStackTrace(Throwable t) {
         String stackTrace = null;
         try {
@@ -240,9 +244,9 @@ public class FilterDispactcher implements Filter {
         }
         return stackTrace;
     }
-    
+
     public void log(String msg) {
-        filterConfig.getServletContext().log(msg);        
+        filterConfig.getServletContext().log(msg);
     }
-    
+
 }

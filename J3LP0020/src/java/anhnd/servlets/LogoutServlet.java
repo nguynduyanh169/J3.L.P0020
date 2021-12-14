@@ -12,13 +12,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.apache.log4j.Logger;
 
 /**
  *
  * @author anhnd
  */
 public class LogoutServlet extends HttpServlet {
-     private static final String GUEST_HOME = "guest_home.jsp";
+
+    private static final String GUEST_HOME = "guest_home.jsp";
+    private static final Logger LOG = Logger.getLogger(LogoutServlet.class.getName());
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,9 +43,9 @@ public class LogoutServlet extends HttpServlet {
                 session.invalidate();
             }
 
-        }catch(Exception e){
-            e.printStackTrace();
-        }finally {
+        } catch (Exception e) {
+            LOG.error("LogoutServlet_Exception: " + e.getMessage());
+        } finally {
             response.sendRedirect(url);
             out.close();
         }

@@ -37,6 +37,10 @@
                     <tbody>
                         <tr>
                             <td>Article Name: </td>
+                            <td><input type="text" name="txtSearchTitle" value="${param.txtSearchTitle}"/></td>
+                        </tr>
+                        <tr>
+                            <td>Content: </td>
                             <td><input type="text" name="txtSearch" value="${param.txtSearch}"/></td>
                         </tr>
                         <tr>
@@ -126,6 +130,7 @@
                             <c:param name="btAction" value="Search" />
                             <c:param name="page" value="${i}"/>
                             <c:param name="txtSearch" value="${param.txtSearch}"/>
+                            <c:param name="txtSearchTitle" value="${param.txtSearchTitle}"/>
                             <c:param name="articleStatus" value="${param.articleStatus}"/>
                             <c:param name="forwardTo" value="admin"/>
                         </c:url>
