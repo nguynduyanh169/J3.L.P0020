@@ -50,15 +50,15 @@ public class PostArticleServlet extends HttpServlet {
         boolean isError = false;
         try {
             if (title.isEmpty() || title.length() > 100) {
-                error.setTitle("Title lenght is 0 - 100 characters.");
+                error.setTitle("Title lenght is 1 - 100 characters.");
                 isError = true;
             }
             if (shortDesc.isEmpty() || shortDesc.length() > 100) {
-                error.setShortDesc("Short description lenght is 0 - 100 characters.");
+                error.setShortDesc("Short description lenght is 1 - 100 characters.");
                 isError = true;
             }
             if (content.isEmpty() || content.length() > 500) {
-                error.setContent("Content lenght is 0 - 500 characters.");
+                error.setContent("Content lenght is 1 - 500 characters.");
                 isError = true;
             }
             if (isError) {

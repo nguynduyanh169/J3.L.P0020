@@ -6,6 +6,7 @@
 package anhnd.utils;
 
 import anhnd.beans.SendEmailObj;
+import anhnd.servlets.SearchArticleServlet;
 import java.io.Serializable;
 import java.util.Properties;
 import java.util.Random;
@@ -15,12 +16,14 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import org.apache.log4j.Logger;
 
 /**
  *
  * @author anhnd
  */
 public class EmailUtils implements Serializable {
+    private static final Logger LOG = Logger.getLogger(EmailUtils.class.getName());
 
     public static String getRandom() {
         Random rnd = new Random();
@@ -52,7 +55,7 @@ public class EmailUtils implements Serializable {
             Transport.send(message);
             isSent = true;
         } catch (Exception e) {
-            e.printStackTrace();
+           LOG.error("EmailUtils_Error: " + e.getMessage());
         }
 
         return isSent;

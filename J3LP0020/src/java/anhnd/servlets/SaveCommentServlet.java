@@ -48,8 +48,8 @@ public class SaveCommentServlet extends HttpServlet {
         boolean isError = false;
         try {
             String commentContent = request.getParameter("txtComment");
-            if (commentContent.isEmpty()) {
-                errorMsg = "Comment field cannot be blank!";
+            if (commentContent.isEmpty() || commentContent.length() > 100) {
+                errorMsg = "Comment field lenght is 0-100!";
                 isError = true;
             }
             if (isError) {

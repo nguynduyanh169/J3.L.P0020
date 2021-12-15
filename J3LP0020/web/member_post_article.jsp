@@ -14,6 +14,11 @@
     </head>
     <body>
         <c:set var="error" value="${requestScope.ERROR}" />
+        <c:url var="backToHomeLink" value="backToHome">
+            <c:param name="btAction" value="Member Back To Home" />
+        </c:url>
+        <a href="${backToHomeLink}">Back To Home</a>
+        <br/>
         <h1>Post Your Article</h1>
         <c:if test="${empty error}">
             <form action="postArticle" method="POST">

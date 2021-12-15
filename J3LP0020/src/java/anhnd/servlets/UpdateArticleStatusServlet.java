@@ -45,12 +45,12 @@ public class UpdateArticleStatusServlet extends HttpServlet {
             HttpSession session = request.getSession();
             String selectedStatus = (String) session.getAttribute("SELECTEDSTATUS");
             if (status == null) {
-                url = "SearchArticleServlet?txtSearch=&articleStatus=" + selectedStatus + "&page=1&forwardTo=admin&btAction=Search";
+                url = "SearchArticleServlet?txtSearch=&txtSearchTitle=&articleStatus=" + selectedStatus + "&page=1&forwardTo=admin&btAction=Search";
             } else {
                 ArticleDAO articleDAO = new ArticleDAO();
                 boolean check = articleDAO.changeArticleStatus(status.equals("approve") ? 1 : -1, articleId);
                 if (check) {
-                    url = "SearchArticleServlet?txtSearch=&articleStatus=" + selectedStatus + "&page=1&forwardTo=admin&btAction=Search";
+                    url = "SearchArticleServlet?txtSearch=&txtSearchTitle=&articleStatus=" + selectedStatus + "&page=1&forwardTo=admin&btAction=Search";
                 }
             }
             
