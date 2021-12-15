@@ -5,10 +5,8 @@
  */
 package anhnd.servlets;
 
-import anhnd.beans.SendEmailObj;
 import anhnd.daos.AccountDAO;
 import anhnd.dtos.AccountDTO;
-import anhnd.utils.EmailUtils;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;

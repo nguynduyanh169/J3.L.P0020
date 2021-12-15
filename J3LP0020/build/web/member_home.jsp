@@ -34,6 +34,7 @@
             <a href="member_post_article.jsp">Create your post</a>
             <br/>
             <form action="searchArticle" method="GET">
+                Content:
                 <input type="text" name="txtSearch" value="${param.txtSearch}"/>
                 <input type="hidden" name="page" value="1"/>
                 <input type="hidden" name="forwardTo" value="member"/>

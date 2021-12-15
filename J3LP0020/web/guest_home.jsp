@@ -30,6 +30,7 @@
             <h1>Hello Guest!</h1>
             <br/>
             <form action="searchArticle" method="GET">
+                Content: 
                 <input type="text" name="txtSearch" value="${param.txtSearch}"/>
                 <input type="hidden" name="page" value="1"/>
                 <input type="hidden" name="forwardTo" value="guest"/>
