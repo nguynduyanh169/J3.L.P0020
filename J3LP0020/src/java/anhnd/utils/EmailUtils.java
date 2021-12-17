@@ -33,8 +33,8 @@ public class EmailUtils implements Serializable {
 
     public static boolean sendVerifyEmail(SendEmailObj sendEmailObj) {
         boolean isSent = false;
-        String emailOwner = "anhndse62808@fpt.edu.vn";
-        String password = "vtbt0502";
+        String emailOwner = "Your Email";
+        String password = "Your password";
         try {
             Properties properties = new Properties();
             properties.put("mail.smtp.auth", "true");
